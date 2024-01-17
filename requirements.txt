@@ -1,0 +1,7 @@
+Django==4.2.9
+django_simple_captcha==0.5.20
+mysqlclient==2.2.1
+flask==3.0.0
+requests==2.31.0
+pandas==2.1.4
+openpyxl==3.1.2

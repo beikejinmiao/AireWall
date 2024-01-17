@@ -1,0 +1,105 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+	<meta charset="UTF-8">
+	<title>登录页</title>
+    <link href="{% static 'aireadmin/css/bootstrap.min.css' %}" rel="stylesheet">
+	<link href="{% static 'aireadmin/css/login.css' %}" rel="stylesheet">
+
+    <script src="{% static 'aireadmin/js/jquery.min.js' %}"></script>
+    <script src="{% static 'aireadmin/js/popper.min.js' %}"></script>
+    <script src="{% static 'aireadmin/js/bootstrap.min.js' %}"></script>
+</head>
+
+<body>
+	<div class="loginav">
+        <div class="loginbox boxall">
+			<div class="logo">AGI智能体安全防护系统</div>
+			<div class="logintit"><span>用户登录</span></div>
+			<form id="loginForm" action="/login/" method="post">
+                <ul class="logininput">
+                    <div id="alertMessage">
+                      {% if login_form.captcha.errors %}
+                        <div class="alert alert-warning">{{ login_form.captcha.errors }}</div>
+                      {% elif message %}
+                        <div class="alert alert-warning">{{ message }}</div>
+                      {% endif %}
+                    </div>
+
+                    {% csrf_token %}
+                    <li>
+                        <i><img src="{% static 'aireadmin/image/icon1.png' %} " alt=""/></i>
+                        <div class="form-group">
+                            {{ login_form.username}}
+                        </div>
+                    </li>
+                    <li>
+                        <i><img src="{% static 'aireadmin/image/icon2.png' %}" alt=""/></i>
+                        <div class="form-group">
+                            {{ login_form.password}}
+                        </div>
+                    </li>
+                    <li>
+                        <i><img src="{% static 'aireadmin/image/icon3.png' %}" alt=""/></i>
+                        {{ login_form.captcha }}
+                    </li>
+
+                    <li>
+                        <a id="formSubmit" href="#" class="btn btnblock btn-lg btn-block btn-primary" onclick="check2Submit()">登录</a>
+                    </li>
+    {#				<li>#}
+    {#					<div class=" flex1 forget">#}
+    {#						<label> <input type="checkbox" checked class="aui-checkbox">&nbsp;记住密码</label>#}
+    {#						<a href="" class="text-primary"> 忘记密码？</a>#}
+    {#					</div>#}
+    {#				</li>#}
+                </ul>
+			</form>
+			<div class="boxfoot"></div>
+		</div>
+	</div>
+	<div class="copyright">
+		© 2024 北京极智安科技有限公司
+	</div>
+
+    <script>
+
+        $('img.captcha').click(function() {
+            $.getJSON('/captcha/refresh/',function(json) {
+                // This should update your captcha image src and captcha hidden input console.log(json);
+                $("img.captcha").attr("src", json.image_url);
+                $("#id_captcha_0").val(json.key);
+            });
+            return false;
+        });
+
+       function check2Submit() {
+            let username = $('input[name="username"]').val().trim();
+            let password = $('input[name="password"]').val().trim();
+            let captcha = $('input[name="captcha_1"]').val().trim();
+            let message = "";
+            if (username === ""){
+                message = "用户名为空";
+            } else if (password === ""){
+                message = "密码为空";
+            } else if (captcha === ""){
+                message = "验证码为空";
+            }
+
+            if (message !== ""){
+                let msgDiv = "<div class=\"alert alert-warning\">" + message + "</div>";
+                $("#alertMessage").html(msgDiv);
+            }else {
+                document.getElementById("loginForm").submit();
+                $("#alertMessage").html("");
+            }
+        }
+    </script>
+</body>
+
+</html>
+
