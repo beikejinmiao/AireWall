@@ -52,7 +52,6 @@ class RiskType(enum.StrEnum):
     OTHER = 'other-harmful'       # 其他(推广引诱诈骗)
     DEFAULT = 'other-harmful'     # 默认
     #
-    PRIVACY = 'privacy'     # 隐私
     CREDIT = 'credit'       # 银行卡号
     IDCARD = 'idcard'       # 身份证号
     EMAIL = 'email'         # 邮箱
@@ -89,7 +88,6 @@ risk_type_cn = {
     RiskType.CONTRABAND: '违禁物品',
     RiskType.ABUSE: '辱骂',
     RiskType.OTHER: '推广引诱诈骗',
-    RiskType.PRIVACY: '隐私',
     RiskType.CREDIT: '银行卡号',
     RiskType.IDCARD: '身份证号',
     RiskType.EMAIL: '邮箱',
@@ -97,3 +95,12 @@ risk_type_cn = {
     RiskType.QQ: 'QQ号',
     RiskType.WECHAT: '微信号',
 }
+
+
+class RiskClass(enum.StrEnum):
+    ILLEGAL = 'illegal'     # 非法
+    PRIVACY = 'privacy'     # 隐私
+    ATTACK = 'attack'       # 攻击
+
+
+all_risk_class = (RiskClass.ILLEGAL, RiskClass.PRIVACY, RiskClass.ATTACK)
